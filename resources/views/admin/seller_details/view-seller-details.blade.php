@@ -40,9 +40,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label"> Email</label>
                                                 <input class="form-control" name="seller_email" value="{{ $seller_view->seller_email }}">
-
                                             </div>
-
                                             <div class="mb-3">
                                                 <label for="seller_name" class="form-label"> Name</label>
                                                 <input class="form-control" id="seller_name"
