@@ -122,7 +122,7 @@
                     </div> <!-- end col -->
                     <div class="col-sm-6">
                         <div class="text-sm-end mt-2 mt-sm-0">
-                            <a href="ecommerce-checkout.html" class="btn btn-success">
+                            <a href="{{ route('checkout') }}" class="btn btn-success">
                                 <i class="mdi mdi-cart-arrow-right me-1"></i> Checkout </a>
                         </div>
                     </div> <!-- end col -->

@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Country;
+use App\Models\DeliveryAddress;
 use App\Models\Product;
 use App\Models\Section;
 use App\Models\ProductsImage;
@@ -330,4 +332,28 @@ class ProductsController extends Controller
     //    return redirect()->back()->with('success_message' , $message);
     // }
 
+
+
+    public function cartCount()
+    {
+     $fashion_cart_count = Cart::where('user_id' , Auth::id())->count();
+     $second_cart_count = SecondCart::where('user_id' , Auth::id())->count();
+        if ($fashion_cart_count > 0 && $second_cart_count > 0) {
+          $cart_count = $fashion_cart_count + $second_cart_count;
+
+        }
+        else if ($second_cart_count > 0 && $fashion_cart_count == 0 ) {
+           $cart_count = $second_cart_count;
+        }
+        else if($fashion_cart_count > 0 && $second_cart_count == 0){
+            $cart_count = $fashion_cart_count;
+        }
+        else{
+            $cart_count = 0;
+        }
+     return response()->json(['cart_count' => $cart_count]);
+    }
+
+
 }
+

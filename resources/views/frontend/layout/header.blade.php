@@ -400,8 +400,8 @@ $sections = Section::sections();
                 </button>
             </div> --}}
             <div class="text-sm-end mt-2 mt-sm-2 px-1">
-                <a href="{{ url('cart') }}" class="btn btn-success font-size-12">
-                    <i class="mdi mdi-cart me-1"></i> Cart </a>
+                <a href="{{ route('cart') }}" class="btn btn-success font-size-12">
+                    <i class="mdi mdi-cart me-1"></i> Cart <span class="badge badge-pill cart_count">0</span></a>
 
             </div>
             <div class="text-sm-end  mt-sm-2 px-1">

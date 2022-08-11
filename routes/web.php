@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Front\ProductsController;
+use App\http\Controllers\Front\CheckoutController;
 use App\Models\Category;
 
 /*
@@ -25,6 +27,9 @@ Route::get('/userhome', function () {
 })->middleware(['auth'])->name('userhome');
 
 require __DIR__ . '/auth.php';
+
+//load cart count
+Route::get('load-cart-data' , [App\Http\Controllers\Front\ProductsController::class , 'cartCount']);
 
 Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function () {
 
@@ -239,7 +244,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function () {
 
 
     //shopping cart route for fashion
-    Route::get('/cart', 'ProductsController@cart');
+    Route::get('/cart', 'ProductsController@cart')->name('cart');
      //Add to cart for other products than fashion
      //Route::get('/cart', 'SecondCartController@cart');
 
@@ -250,6 +255,17 @@ Route::namespace('App\Http\Controllers\Front')->group(function () {
     //delete-cart-item-qty
     Route::post('/delete-cart-item', 'ProductsController@deleteCartItem');
     //    Route::get('/delete-cart-item/{id}' , 'ProductsController@deleteCartItem');
+
+    //checkout page
+    Route::get('checkout' , [App\Http\Controllers\Front\CheckoutController::class , 'checkout'])->name('checkout');
+    Route::post('add-delivery-address' , [App\Http\Controllers\Front\CheckoutController::class , 'add_delivery_address']);
+    // Route::get('edit-delivery-address/{id}' , [App\Http\Controllers\Front\CheckoutController::class , 'edit_delivery_address']);
+   // Route::get('checkout/{id}' , [App\Http\Controllers\Front\CheckoutController::class , 'edit_delivery_address']);
+    // Route::post('edit-delivery-address/{id}' , [App\Http\Controllers\Front\CheckoutController::class , 'edit_delivery_address']);
+
+    // Route::get('delete-delivery-address/{id}' , [App\Http\Controllers\Front\CheckoutController::class , 'delete_delivery_address']);
+
+
 
     //User Login
     Route::get('/login', 'UsersController@login')->name('login');
@@ -274,6 +290,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function () {
 
     //user account details
     Route::match(['get', 'post'], '/useraccount', 'UsersController@userAccount');
+
+
     //user logout
     Route::get('/logout', 'UsersController@logout')->name('logout');
 

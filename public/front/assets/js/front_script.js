@@ -4,6 +4,7 @@ $(document).ready(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    loadCart();
     // $("#sort").on('change' , function (){
 
     //     this.form.submit();
@@ -236,4 +237,16 @@ $(document).ready(function () {
         }
     });
 
+    //load cart function (cart count in header)
+    function loadCart() {
+        $.ajax({
+            method: 'GET' ,
+            url: '/load-cart-data',
+            success: function(response){
+                $('.cart_count').html('');
+                $('.cart_count').html(response.cart_count);
+                // alert(response.cart_count);
+            }
+        });
+    }
 });

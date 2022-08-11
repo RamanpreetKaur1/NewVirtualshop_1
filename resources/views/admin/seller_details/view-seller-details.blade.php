@@ -46,7 +46,6 @@
                                                 <input class="form-control" id="seller_name"
                                                     name="seller_name"  value="{{ $seller_view->seller_name }}">
                                             </div>
-
                                             <div class="mb-3">
                                                 <label for="seller_mobile" class="form-label">Mobile</label>
                                                 <input class="form-control" maxlength="10" minlength="10"
