@@ -29,15 +29,15 @@ Route::get('/userhome', function () {
 require __DIR__ . '/auth.php';
 
 //load cart count
-Route::get('load-cart-data' , [App\Http\Controllers\Front\ProductsController::class , 'cartCount']);
+Route::get('load-cart-data', [App\Http\Controllers\Front\ProductsController::class, 'cartCount']);
 
 Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function () {
 
 
 
 
-        //seller Details
-    Route::get('seller_registration' , 'SellersDetailsController@index')->name('admin/seller_registration');
+    //seller Details
+    Route::get('seller_registration', 'SellersDetailsController@index')->name('admin/seller_registration');
     Route::post('seller-registration', 'SellersDetailsController@sellerRegistration')->name('admin/seller-registration');
 
     //seller plans
@@ -64,17 +64,17 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get', 'post'], 'update_sellers_details/{slug}', 'AdminController@updateSellerDetails');
 
 
-         //view seller's details by seller
-         Route::get('seller_view/{id}' , 'SellersDetailsController@sellerview');
+        //view seller's details by seller
+        Route::get('seller_view/{id}', 'SellersDetailsController@sellerview');
 
-         //update seller's details by seller
-         Route::post('seller_view/{id}' , 'SellersDetailsController@sellerupdate');
+        //update seller's details by seller
+        Route::post('seller_view/{id}', 'SellersDetailsController@sellerupdate');
 
         //update seller's plan
         Route::get('seller_plan/{id}', 'PlanController@viewplan');
 
-         //update selle's plan
-         Route::post('update_plan/{id}', 'PlanController@update_plan');
+        //update selle's plan
+        Route::post('update_plan/{id}', 'PlanController@update_plan');
 
         //view Admin / Sellers
         Route::get('admins/{type?}', 'AdminController@admins');
@@ -230,7 +230,10 @@ Route::namespace('App\Http\Controllers\Front')->group(function () {
     }
 
     //Product Detail
-    Route::get('{product_url}/{id}', 'ProductsController@detail');
+    //Route::get('{product_url}/{id}', 'ProductsController@detail');
+
+    Route::get('product/{id}', 'ProductsController@detail');
+
 
     //get product Attribute price
     Route::post('/get-product-price', 'ProductsController@getProductPrice');
@@ -245,8 +248,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function () {
 
     //shopping cart route for fashion
     Route::get('/cart', 'ProductsController@cart')->name('cart');
-     //Add to cart for other products than fashion
-     //Route::get('/cart', 'SecondCartController@cart');
+    //Add to cart for other products than fashion
+    //Route::get('/cart', 'SecondCartController@cart');
 
 
     //update-cart-item-qty
@@ -257,14 +260,12 @@ Route::namespace('App\Http\Controllers\Front')->group(function () {
     //    Route::get('/delete-cart-item/{id}' , 'ProductsController@deleteCartItem');
 
     //checkout page
-    Route::get('checkout' , [App\Http\Controllers\Front\CheckoutController::class , 'checkout'])->name('checkout');
-    Route::post('add-delivery-address' , [App\Http\Controllers\Front\CheckoutController::class , 'add_delivery_address']);
-    // Route::get('edit-delivery-address/{id}' , [App\Http\Controllers\Front\CheckoutController::class , 'edit_delivery_address']);
-   // Route::get('checkout/{id}' , [App\Http\Controllers\Front\CheckoutController::class , 'edit_delivery_address']);
-    // Route::post('edit-delivery-address/{id}' , [App\Http\Controllers\Front\CheckoutController::class , 'edit_delivery_address']);
-
-    // Route::get('delete-delivery-address/{id}' , [App\Http\Controllers\Front\CheckoutController::class , 'delete_delivery_address']);
-
+    Route::get('checkout', [App\Http\Controllers\Front\CheckoutController::class, 'checkout'])->name('checkout');
+    Route::post('add-delivery-address', [App\Http\Controllers\Front\CheckoutController::class, 'add_delivery_address']);
+    Route::get('edit-delivery-address/{id}', [App\Http\Controllers\Front\CheckoutController::class, 'edit_delivery_address']);
+    Route::post('update-delivery-address/{id}', [App\Http\Controllers\Front\CheckoutController::class, 'update_delivery_address']);
+    Route::get('delete-delivery-address/{id}' , [App\Http\Controllers\Front\CheckoutController::class , 'delete_delivery_address']);
+    Route::post('cart_checkout' ,[App\Http\Controllers\Front\CheckoutController::class, 'cart_checkout']);
 
 
     //User Login

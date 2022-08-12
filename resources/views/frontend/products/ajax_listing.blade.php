@@ -41,8 +41,8 @@ $sections = Section::sections();
                                 <span class="avatar-title rounded-circle  bg-primary">{{ $product['product_discount'] }}%</span>
                             </div>
                             @endif
-
-                            <a href="{{ url($product['product_url'].'/'.$product['id']) }}">
+                            {{-- url($product['product_url'].'/'.$product['id']) --}}
+                            <a href="{{ url('product/'.$product['id']) }}">
                                 @if (isset($product['product_image']))
                                 <?php $product_image_path = 'front/images/product_images/small/' . $product['product_image']; ?>
 

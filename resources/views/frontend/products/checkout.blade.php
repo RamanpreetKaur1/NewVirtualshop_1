@@ -69,39 +69,47 @@ use App\Models\Product;
                                                 <h4 class="card-title">Shipping information</h4>
                                                 <p class="card-title-desc">Fill all information below</p>
 
-                                                <form method="POST"
-                                                action="{{ url('add-delivery-address') }}">
+                                                {{-- form for storing only delivery address  --}}
+                                                <form method="POST"  @if (empty($edit_delivery_address['id']))
+                                                action="{{ url('add-delivery-address') }}"
+                                                @else
+                                                action="{{ url('update-delivery-address/'.$edit_delivery_address['id']) }}"     @endif  >
+
+
                                                     @csrf
                                                     <div class="form-group row mb-4">
                                                         <label for="billing-name"
                                                             class="col-md-2 col-form-label">Name</label>
                                                         <div class="col-md-10">
                                                             <input type="text" name="name" class="form-control" id="billing-name"
-                                                                placeholder="Enter your name">
-                                                        </div>
+                                                                placeholder="Enter your name" @if (!empty($edit_delivery_address['name'])) value="{{ $edit_delivery_address['name'] }}" @else value="{{ old('name') }}" @endif>
+
+                                                                @if ($errors->has('name'))
+                                                                    <span class="text-danger">*{{ $errors->first('name') }}</span>
+                                                                 @endif
+                                                            </div>
+
                                                     </div>
-                                                    {{-- <div class="form-group row mb-4">
-                                                        <label for="billing-email-address"
-                                                            class="col-md-2 col-form-label">Email Address</label>
-                                                        <div class="col-md-10">
-                                                            <input type="email" class="form-control"
-                                                                id="billing-email-address" placeholder="Enter your email">
-                                                        </div>
-                                                    </div> --}}
-
-
                                                     <div class="form-group row mb-4">
                                                         <label for="billing-address"
                                                             class="col-md-2 col-form-label">Address</label>
                                                         <div class="col-md-10">
-                                                            <textarea class="form-control" name="address" id="billing-address" rows="3" placeholder="Enter full address"></textarea>
+                                                            <textarea class="form-control" name="address" id="billing-address" rows="3" placeholder="Enter full address">@if (!empty($edit_delivery_address['address'])){{ $edit_delivery_address['address'] }}@else {{ old('address') }} @endif</textarea>
+
+                                                            @if ($errors->has('address'))
+                                                             <span class="text-danger">*{{ $errors->first('address') }}</span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                     <div class="form-group row mb-4">
                                                         <label for="billing-city"
                                                             class="col-md-2 col-form-label">City</label>
                                                             <div class="col-md-10">
-                                                                <input type="text" name="city" id="billing-city" placeholder="Enter City" class="form-control">
+                                                                <input type="text" name="city" id="billing-city" placeholder="Enter City" class="form-control" @if (!empty($edit_delivery_address['city'])) value="{{ $edit_delivery_address['city'] }}" @else value="{{ old('city') }}" @endif>
+
+                                                                @if ($errors->has('city'))
+                                                                    <span class="text-danger">*{{ $errors->first('city') }}</span>
+                                                                 @endif
                                                             </div>
                                                     </div>
 
@@ -109,257 +117,33 @@ use App\Models\Product;
                                                     <div class="form-group row mb-4">
                                                         <label class="col-md-2 col-form-label">States</label>
                                                         <div class="col-md-10">
-                                                            <select class="form-control select2" name="state">
-                                                                <option value="0">Select States</option>
-                                                                <option value="AL">Alabama</option>
-                                                                <option value="AK">Alaska</option>
-                                                                <option value="AZ">Arizona</option>
-                                                                <option value="AR">Arkansas</option>
-                                                                <option value="CA">California</option>
-                                                                <option value="CO">Colorado</option>
-                                                                <option value="DE">Delaware</option>
-                                                                <option value="Fl"> Florida</option>
-                                                                <option value="GA">Georgia</option>
-                                                                <option value="HI">Hawaii</option>
-                                                                <option value="MT">Montana</option>
-                                                                <option value="NV">Nevada</option>
-                                                                <option value="NM">New Mexico</option>
-                                                                <option value="NY">New York</option>
-                                                                <option value="NC">North Dakota</option>
-                                                                <option value="TX">Texas</option>
-                                                                <option value="VA">Virginia</option>
-                                                                <option value="WI">Wisconsin</option>
-                                                                <option value="WY">Wyoming</option>
-                                                            </select>
+                                                           <input type="text" name="state" class="form-control" placeholder="Enter State" @if (!empty($edit_delivery_address['state'])) value="{{ $edit_delivery_address['state'] }}" @else value="{{ old('state') }}" @endif>
+
+                                                           @if ($errors->has('state'))
+                                                                    <span class="text-danger">*{{ $errors->first('state') }}</span>
+                                                                 @endif
+
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group row mb-4">
                                                         <label class="col-md-2 col-form-label">Country</label>
                                                         <div class="col-md-10">
-                                                            <select class="form-control select2" name="country">
+                                                            <select class="form-select select2" name="country">
                                                                 <option value="0">Select Country</option>
-                                                                <option value="AF">Afghanistan</option>
-                                                                <option value="AL">Albania</option>
-                                                                <option value="DZ">Algeria</option>
-                                                                <option value="AS">American Samoa</option>
-                                                                <option value="AD">Andorra</option>
-                                                                <option value="AO">Angola</option>
-                                                                <option value="AI">Anguilla</option>
-                                                                <option value="AQ">Antarctica</option>
-                                                                <option value="AR">Argentina</option>
-                                                                <option value="AM">Armenia</option>
-                                                                <option value="AW">Aruba</option>
-                                                                <option value="AU">Australia</option>
-                                                                <option value="AT">Austria</option>
-                                                                <option value="AZ">Azerbaijan</option>
-                                                                <option value="BS">Bahamas</option>
-                                                                <option value="BH">Bahrain</option>
-                                                                <option value="BD">Bangladesh</option>
-                                                                <option value="BB">Barbados</option>
-                                                                <option value="BY">Belarus</option>
-                                                                <option value="BE">Belgium</option>
-                                                                <option value="BZ">Belize</option>
-                                                                <option value="BJ">Benin</option>
-                                                                <option value="BM">Bermuda</option>
-                                                                <option value="BT">Bhutan</option>
-                                                                <option value="BO">Bolivia</option>
-                                                                <option value="BW">Botswana</option>
-                                                                <option value="BV">Bouvet Island</option>
-                                                                <option value="BR">Brazil</option>
-                                                                <option value="BN">Brunei Darussalam</option>
-                                                                <option value="BG">Bulgaria</option>
-                                                                <option value="BF">Burkina Faso</option>
-                                                                <option value="BI">Burundi</option>
-                                                                <option value="KH">Cambodia</option>
-                                                                <option value="CM">Cameroon</option>
-                                                                <option value="CA">Canada</option>
-                                                                <option value="CV">Cape Verde</option>
-                                                                <option value="KY">Cayman Islands</option>
-                                                                <option value="CF">Central African Republic</option>
-                                                                <option value="TD">Chad</option>
-                                                                <option value="CL">Chile</option>
-                                                                <option value="CN">China</option>
-                                                                <option value="CX">Christmas Island</option>
-                                                                <option value="CC">Cocos (Keeling) Islands</option>
-                                                                <option value="CO">Colombia</option>
-                                                                <option value="KM">Comoros</option>
-                                                                <option value="CG">Congo</option>
-                                                                <option value="CK">Cook Islands</option>
-                                                                <option value="CR">Costa Rica</option>
-                                                                <option value="CI">Cote d'Ivoire</option>
-                                                                <option value="HR">Croatia (Hrvatska)</option>
-                                                                <option value="CU">Cuba</option>
-                                                                <option value="CY">Cyprus</option>
-                                                                <option value="CZ">Czech Republic</option>
-                                                                <option value="DK">Denmark</option>
-                                                                <option value="DJ">Djibouti</option>
-                                                                <option value="DM">Dominica</option>
-                                                                <option value="DO">Dominican Republic</option>
-                                                                <option value="EC">Ecuador</option>
-                                                                <option value="EG">Egypt</option>
-                                                                <option value="SV">El Salvador</option>
-                                                                <option value="GQ">Equatorial Guinea</option>
-                                                                <option value="ER">Eritrea</option>
-                                                                <option value="EE">Estonia</option>
-                                                                <option value="ET">Ethiopia</option>
-                                                                <option value="FK">Falkland Islands (Malvinas)</option>
-                                                                <option value="FO">Faroe Islands</option>
-                                                                <option value="FJ">Fiji</option>
-                                                                <option value="FI">Finland</option>
-                                                                <option value="FR">France</option>
-                                                                <option value="GF">French Guiana</option>
-                                                                <option value="PF">French Polynesia</option>
-                                                                <option value="GA">Gabon</option>
-                                                                <option value="GM">Gambia</option>
-                                                                <option value="GE">Georgia</option>
-                                                                <option value="DE">Germany</option>
-                                                                <option value="GH">Ghana</option>
-                                                                <option value="GI">Gibraltar</option>
-                                                                <option value="GR">Greece</option>
-                                                                <option value="GL">Greenland</option>
-                                                                <option value="GD">Grenada</option>
-                                                                <option value="GP">Guadeloupe</option>
-                                                                <option value="GU">Guam</option>
-                                                                <option value="GT">Guatemala</option>
-                                                                <option value="GN">Guinea</option>
-                                                                <option value="GW">Guinea-Bissau</option>
-                                                                <option value="GY">Guyana</option>
-                                                                <option value="HT">Haiti</option>
-                                                                <option value="HN">Honduras</option>
-                                                                <option value="HK">Hong Kong</option>
-                                                                <option value="HU">Hungary</option>
-                                                                <option value="IS">Iceland</option>
-                                                                <option value="IN">India</option>
-                                                                <option value="ID">Indonesia</option>
-                                                                <option value="IQ">Iraq</option>
-                                                                <option value="IE">Ireland</option>
-                                                                <option value="IL">Israel</option>
-                                                                <option value="IT">Italy</option>
-                                                                <option value="JM">Jamaica</option>
-                                                                <option value="JP">Japan</option>
-                                                                <option value="JO">Jordan</option>
-                                                                <option value="KZ">Kazakhstan</option>
-                                                                <option value="KE">Kenya</option>
-                                                                <option value="KI">Kiribati</option>
-                                                                <option value="KR">Korea, Republic of</option>
-                                                                <option value="KW">Kuwait</option>
-                                                                <option value="KG">Kyrgyzstan</option>
-                                                                <option value="LV">Latvia</option>
-                                                                <option value="LB">Lebanon</option>
-                                                                <option value="LS">Lesotho</option>
-                                                                <option value="LR">Liberia</option>
-                                                                <option value="LY">Libyan Arab Jamahiriya</option>
-                                                                <option value="LI">Liechtenstein</option>
-                                                                <option value="LT">Lithuania</option>
-                                                                <option value="LU">Luxembourg</option>
-                                                                <option value="MO">Macau</option>
-                                                                <option value="MG">Madagascar</option>
-                                                                <option value="MW">Malawi</option>
-                                                                <option value="MY">Malaysia</option>
-                                                                <option value="MV">Maldives</option>
-                                                                <option value="ML">Mali</option>
-                                                                <option value="MT">Malta</option>
-                                                                <option value="MH">Marshall Islands</option>
-                                                                <option value="MQ">Martinique</option>
-                                                                <option value="MR">Mauritania</option>
-                                                                <option value="MU">Mauritius</option>
-                                                                <option value="YT">Mayotte</option>
-                                                                <option value="MX">Mexico</option>
-                                                                <option value="MD">Moldova, Republic of</option>
-                                                                <option value="MC">Monaco</option>
-                                                                <option value="MN">Mongolia</option>
-                                                                <option value="MS">Montserrat</option>
-                                                                <option value="MA">Morocco</option>
-                                                                <option value="MZ">Mozambique</option>
-                                                                <option value="MM">Myanmar</option>
-                                                                <option value="NA">Namibia</option>
-                                                                <option value="NR">Nauru</option>
-                                                                <option value="NP">Nepal</option>
-                                                                <option value="NL">Netherlands</option>
-                                                                <option value="AN">Netherlands Antilles</option>
-                                                                <option value="NC">New Caledonia</option>
-                                                                <option value="NZ">New Zealand</option>
-                                                                <option value="NI">Nicaragua</option>
-                                                                <option value="NE">Niger</option>
-                                                                <option value="NG">Nigeria</option>
-                                                                <option value="NU">Niue</option>
-                                                                <option value="NF">Norfolk Island</option>
-                                                                <option value="MP">Northern Mariana Islands</option>
-                                                                <option value="NO">Norway</option>
-                                                                <option value="OM">Oman</option>
-                                                                <option value="PW">Palau</option>
-                                                                <option value="PA">Panama</option>
-                                                                <option value="PG">Papua New Guinea</option>
-                                                                <option value="PY">Paraguay</option>
-                                                                <option value="PE">Peru</option>
-                                                                <option value="PH">Philippines</option>
-                                                                <option value="PN">Pitcairn</option>
-                                                                <option value="PL">Poland</option>
-                                                                <option value="PT">Portugal</option>
-                                                                <option value="PR">Puerto Rico</option>
-                                                                <option value="QA">Qatar</option>
-                                                                <option value="RE">Reunion</option>
-                                                                <option value="RO">Romania</option>
-                                                                <option value="RU">Russian Federation</option>
-                                                                <option value="RW">Rwanda</option>
-                                                                <option value="KN">Saint Kitts and Nevis</option>
-                                                                <option value="LC">Saint LUCIA</option>
-                                                                <option value="WS">Samoa</option>
-                                                                <option value="SM">San Marino</option>
-                                                                <option value="ST">Sao Tome and Principe</option>
-                                                                <option value="SA">Saudi Arabia</option>
-                                                                <option value="SN">Senegal</option>
-                                                                <option value="SC">Seychelles</option>
-                                                                <option value="SL">Sierra Leone</option>
-                                                                <option value="SG">Singapore</option>
-                                                                <option value="SK">Slovakia (Slovak Republic)</option>
-                                                                <option value="SI">Slovenia</option>
-                                                                <option value="SB">Solomon Islands</option>
-                                                                <option value="SO">Somalia</option>
-                                                                <option value="ZA">South Africa</option>
-                                                                <option value="ES">Spain</option>
-                                                                <option value="LK">Sri Lanka</option>
-                                                                <option value="SH">St. Helena</option>
-                                                                <option value="PM">St. Pierre and Miquelon</option>
-                                                                <option value="SD">Sudan</option>
-                                                                <option value="SR">Suriname</option>
-                                                                <option value="SZ">Swaziland</option>
-                                                                <option value="SE">Sweden</option>
-                                                                <option value="CH">Switzerland</option>
-                                                                <option value="SY">Syrian Arab Republic</option>
-                                                                <option value="TW">Taiwan, Province of China</option>
-                                                                <option value="TJ">Tajikistan</option>
-                                                                <option value="TZ">Tanzania, United Republic of
-                                                                </option>
-                                                                <option value="TH">Thailand</option>
-                                                                <option value="TG">Togo</option>
-                                                                <option value="TK">Tokelau</option>
-                                                                <option value="TO">Tonga</option>
-                                                                <option value="TT">Trinidad and Tobago</option>
-                                                                <option value="TN">Tunisia</option>
-                                                                <option value="TR">Turkey</option>
-                                                                <option value="TM">Turkmenistan</option>
-                                                                <option value="TC">Turks and Caicos Islands</option>
-                                                                <option value="TV">Tuvalu</option>
-                                                                <option value="UG">Uganda</option>
-                                                                <option value="UA">Ukraine</option>
-                                                                <option value="AE">United Arab Emirates</option>
-                                                                <option value="GB">United Kingdom</option>
-                                                                <option value="US">United States</option>
-                                                                <option value="UY">Uruguay</option>
-                                                                <option value="UZ">Uzbekistan</option>
-                                                                <option value="VU">Vanuatu</option>
-                                                                <option value="VE">Venezuela</option>
-                                                                <option value="VN">Viet Nam</option>
-                                                                <option value="VG">Virgin Islands (British)</option>
-                                                                <option value="VI">Virgin Islands (U.S.)</option>
-                                                                <option value="WF">Wallis and Futuna Islands</option>
-                                                                <option value="EH">Western Sahara</option>
-                                                                <option value="YE">Yemen</option>
-                                                                <option value="ZM">Zambia</option>
-                                                                <option value="ZW">Zimbabwe</option>
+                                                                    @foreach ($countries as $country)
+                                                                        <option value="{{ $country['id'] }}"
+                                                                        @if (!empty($edit_delivery_address['country']))
+                                                                            @if ($country['id'] == $edit_delivery_address['country'])  selected =""
+                                                                              @endif
+                                                                              @elseif ($country['id'] == old('country'))  selected =""
+                                                                         @endif>
+                                                                        {{ $country['country_name'] }}</option>
+                                                                    @endforeach
                                                             </select>
+                                                             @if ($errors->has('country'))
+                                                                    <span class="text-danger">*{{ $errors->first('country') }}</span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                     {{-- <div class="form-group row mb-0">
@@ -374,26 +158,38 @@ use App\Models\Product;
                                                             class="col-md-2 col-form-label">Pincode</label>
                                                         <div class="col-md-10">
                                                             <input type="text" name="pincode" class="form-control" id="billing-pincode"
-                                                                placeholder="Enter your Pincode">
-                                                        </div>
+                                                                placeholder="Enter your Pincode"@if (!empty($edit_delivery_address['pincode'])) value="{{ $edit_delivery_address['pincode'] }}" @else value="{{ old('pincode') }}" @endif>
+
+                                                                @if ($errors->has('pincode'))
+                                                                    <span class="text-danger">*{{ $errors->first('pincode') }}</span>
+                                                                 @endif
+                                                            </div>
                                                     </div>
                                                     <div class="form-group row mb-4">
                                                         <label for="billing-phone"
                                                             class="col-md-2 col-form-label">Mobile</label>
                                                         <div class="col-md-10">
                                                             <input type="text" name="mobile" class="form-control" id="billing-phone"
-                                                                placeholder="Enter your Phone no.">
-                                                        </div>
+                                                                placeholder="Enter your Phone no." @if (!empty($edit_delivery_address['mobile']))value="{{ $edit_delivery_address['mobile'] }}" @else value="{{ old('mobile') }}"  @endif>
+
+                                                                @if ($errors->has('mobile'))
+                                                                    <span class="text-danger">*{{ $errors->first('mobile') }}</span>
+                                                                 @endif
+                                                            </div>
                                                     </div>
 
                                                     <div class="text-end">
-                                                       <button type="submit" class="btn btn-primary">Submit</button>
+                                                       <button type="submit" name="save" value="save" class="btn btn-primary">Save</button>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="v-pills-payment" role="tabpanel"
                                             aria-labelledby="v-pills-payment-tab">
+                                            {{-- form for storing all the checkout page information for proceeding shopping like , delivery address as well as payment options --}}
+
+                                            <form action="{{ url('cart_checkout') }}" name="checkoutForm" id="checkoutForm" method="POST">
+                                                @csrf
                                             <div>
                                                 <h4 class="card-title">Payment information</h4>
                                                 <p class="card-title-desc">Fill all information below</p>
@@ -401,25 +197,25 @@ use App\Models\Product;
                                                 <div>
                                                     <div class="form-check form-check-inline font-size-16">
                                                         <input class="form-check-input" type="radio"
-                                                            name="paymentoptionsRadio" id="paymentoptionsRadio1" checked>
+                                                            name="payment_methods" id="credit_debit_card">
                                                         <label class="form-check-label font-size-13"
-                                                            for="paymentoptionsRadio1"><i
+                                                            for="credit_debit_card"><i
                                                                 class="fab fa-cc-mastercard me-1 font-size-20 align-top"></i>
                                                             Credit / Debit Card</label>
                                                     </div>
                                                     <div class="form-check form-check-inline font-size-16">
                                                         <input class="form-check-input" type="radio"
-                                                            name="paymentoptionsRadio" id="paymentoptionsRadio2">
+                                                            name="payment_methods" id="paypal">
                                                         <label class="form-check-label font-size-13"
-                                                            for="paymentoptionsRadio2"><i
+                                                            for="paypal"><i
                                                                 class="fab fa-cc-paypal me-1 font-size-20 align-top"></i>
                                                             Paypal</label>
                                                     </div>
                                                     <div class="form-check form-check-inline font-size-16">
                                                         <input class="form-check-input" type="radio"
-                                                            name="paymentoptionsRadio" id="paymentoptionsRadio3">
+                                                            name="payment_methods" id="cod">
                                                         <label class="form-check-label font-size-13"
-                                                            for="paymentoptionsRadio3"><i
+                                                            for="cod"><i
                                                                 class="far fa-money-bill-alt me-1 font-size-20 align-top"></i>
                                                             Cash on Delivery</label>
                                                     </div>
@@ -427,7 +223,7 @@ use App\Models\Product;
 
                                                 <h5 class="mt-5 mb-3 font-size-15">For card Payment</h5>
                                                 <div class="p-4 border">
-                                                    <form>
+
                                                         <div class="form-group mb-0">
                                                             <label for="cardnumberInput">Card Number</label>
                                                             <input type="text" class="form-control"
@@ -456,7 +252,7 @@ use App\Models\Product;
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </form>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -464,148 +260,204 @@ use App\Models\Product;
                                             aria-labelledby="v-pills-confir-tab">
 
 
-                                                            <div class="table-responsive border">
-                                                                <table class="table align-middle mb-0">
-                                                                    <thead class="table-light">
-                                                                        <tr>
-                                                                            <th>Product</th>
-                                                                            <th>Product Desc</th>
-                                                                            <th>Price</th>
-                                                                            <th>Quantity</th>
-                                                                            <th>Discount</th>
-                                                                            <th colspan="2">Sub Total</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
+                                            <div class="table-responsive border">
+                                                <table class="table align-middle mb-0">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>Product</th>
+                                                            <th>Product Desc</th>
+                                                            <th>Price</th>
+                                                            <th>Quantity</th>
+                                                            <th>Discount</th>
+                                                            <th colspan="2">Sub Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
 
-                                                                        @php $fashion_total_price = 0; @endphp
+                                                        @php $fashion_total_price = 0; @endphp
 
-                                                                        @foreach ($userCartItems as $item)
-                                                                            @php
-                                                                                // $productAttrPrice = Cart::getProductAttrPrice($item['product_id'] , $item['size']);
-                                                                                $productAttrPrice = Product::getDiscountedAttrPrice($item['product_id'], $item['size']);
-                                                                            @endphp
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <img src="{{ asset('front/images/product_images/large/' . $item['product']['product_image']) }}"
-                                                                                        alt="product-img"  title="product-img"  class="avatar-md" />
+                                                        @foreach ($userCartItems as $item)
+                                                            @php
+                                                                // $productAttrPrice = Cart::getProductAttrPrice($item['product_id'] , $item['size']);
+                                                                $productAttrPrice = Product::getDiscountedAttrPrice($item['product_id'], $item['size']);
+                                                            @endphp
+                                                            <tr>
+                                                                <td>
+                                                                    <img src="{{ asset('front/images/product_images/large/' . $item['product']['product_image']) }}"
+                                                                        alt="product-img"  title="product-img"  class="avatar-md" />
 
-                                                                                </td>
-                                                                                <td>
-                                                                                    <h5 class="font-size-14 text-truncate">
-                                                                                        <a href=""
-                                                                                            class="text-dark">{{ $item['product']['product_name'] }}
-                                                                                            ({{ $item['product']['product_code'] }})</a>
-                                                                                    </h5>
-                                                                                    <p class="mb-0">Color : <span
-                                                                                            class="fw-medium">{{ $item['product']['product_color'] }}</span>
-                                                                                    </p>
-                                                                                    <p class="mb-0">Size : <span
-                                                                                            class="fw-medium">{{ $item['size'] }}</span>
-                                                                                    </p>
-                                                                                </td>
+                                                                </td>
+                                                                <td>
+                                                                    <h5 class="font-size-14 text-truncate">
+                                                                        <a href=""
+                                                                            class="text-dark">{{ $item['product']['product_name'] }}
+                                                                            ({{ $item['product']['product_code'] }})</a>
+                                                                    </h5>
+                                                                    <p class="mb-0">Color : <span
+                                                                            class="fw-medium">{{ $item['product']['product_color'] }}</span>
+                                                                    </p>
+                                                                    <p class="mb-0">Size : <span
+                                                                            class="fw-medium">{{ $item['size'] }}</span>
+                                                                    </p>
+                                                                </td>
 
-                                                                                <td> Rs.  {{ $productAttrPrice['product_price'] }} </td>
+                                                                <td> Rs.  {{ $productAttrPrice['product_price'] }} </td>
 
-                                                                                <td>{{ $item['quantity'] }}</td>
+                                                                <td>{{ $item['quantity'] }}</td>
 
-                                                                                <td>Rs. {{ $productAttrPrice['discount'] }}
-                                                                                </td>
-                                                                                <td>
-                                                                                    Rs.
-                                                                                    {{ $productAttrPrice['final_price'] * $item['quantity'] }}
-                                                                                </td>
+                                                                <td>Rs. {{ $productAttrPrice['discount'] }}
+                                                                </td>
+                                                                <td>
+                                                                    Rs.
+                                                                    {{ $productAttrPrice['final_price'] * $item['quantity'] }}
+                                                                </td>
 
-                                                                            </tr>
-                                                                            @php
-                                                                                $fashion_total_price = $fashion_total_price + $productAttrPrice['final_price'] * $item['quantity'];
-                                                                            @endphp
-                                                                        @endforeach
-
-
+                                                            </tr>
+                                                            @php
+                                                                $fashion_total_price = $fashion_total_price + $productAttrPrice['final_price'] * $item['quantity'];
+                                                            @endphp
+                                                        @endforeach
 
 
-                                                                        {{-- products items other than fashion category --}}
-
-                                                                        @php $second_total_price = 0; @endphp
-
-                                                                        @foreach ($user_cart_items as $item)
-                                                                            @php
-                                                                                $product_discounted_Price = Product::getDiscountedPriceforCart($item['product_id']);
-                                                                            @endphp
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <img src="{{ asset('front/images/product_images/large/' . $item['product']['product_image']) }}"
-                                                                                        alt="product-img"
-                                                                                        title="product-img"
-                                                                                        class="avatar-md" />
-                                                                                </td>
-                                                                                <td>
-                                                                                    <h5 class="font-size-14 text-truncate">
-                                                                                        <a href=""
-                                                                                            class="text-dark">{{ $item['product']['product_name'] }}
-                                                                                            ({{ $item['product']['product_code'] }})</a>
-                                                                                    </h5>
-                                                                                    <p class="mb-0">Color : <span
-                                                                                            class="fw-medium">{{ $item['product']['product_color'] }}</span>
-                                                                                    </p>
-
-                                                                                </td>
-                                                                                <td> Rs.  {{ $item['product']['original_price'] }}  </td>
-                                                                                <td>{{ $item['quantity'] }}</td>
-                                                                                <td>Rs.{{ $product_discounted_Price['discount'] }}  </td>
-                                                                                <td> Rs. {{ $product_discounted_Price['discounted_price'] * $item['quantity'] }}  </td>
-
-                                                                            </tr>
-                                                                            @php
-                                                                                $second_total_price = $second_total_price + $product_discounted_Price['discounted_price'] * $item['quantity'];
-                                                                            @endphp
-                                                                        @endforeach
 
 
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
+                                                        {{-- products items other than fashion category --}}
 
-                                                            <h5 class="mt-4 mb-3 font-size-15">Delivery Address</h5>
-                                                            <div class="table-responsive border">
-                                                                <table class="table align-middle mb-0">
-                                                                    @foreach ($delivery_addresses as $delivery_address)
+                                                        @php $second_total_price = 0; @endphp
+
+                                                        @foreach ($user_cart_items as $item)
+                                                            @php
+                                                                $product_discounted_Price = Product::getDiscountedPriceforCart($item['product_id']);
+                                                            @endphp
+                                                            <tr>
+                                                                <td>
+                                                                    <img src="{{ asset('front/images/product_images/large/' . $item['product']['product_image']) }}"
+                                                                        alt="product-img"
+                                                                        title="product-img"
+                                                                        class="avatar-md" />
+                                                                </td>
+                                                                <td>
+                                                                    <h5 class="font-size-14 text-truncate">
+                                                                        <a href=""
+                                                                            class="text-dark">{{ $item['product']['product_name'] }}
+                                                                            ({{ $item['product']['product_code'] }})</a>
+                                                                    </h5>
+                                                                    <p class="mb-0">Color : <span
+                                                                            class="fw-medium">{{ $item['product']['product_color'] }}</span>
+                                                                    </p>
+
+                                                                </td>
+                                                                <td> Rs.  {{ $item['product']['original_price'] }}  </td>
+                                                                <td>{{ $item['quantity'] }}</td>
+                                                                <td>Rs.{{ $product_discounted_Price['discount'] }}  </td>
+                                                                <td> Rs. {{ $product_discounted_Price['discounted_price'] * $item['quantity'] }}  </td>
+
+                                                            </tr>
+                                                            @php
+                                                                $second_total_price = $second_total_price + $product_discounted_Price['discounted_price'] * $item['quantity'];
+                                                            @endphp
+                                                        @endforeach
+
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <br>
+                                            <div class="col-lg-12">
+                                                <div class="card border">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title mb-3 ">Order Summary</h4>
+                                                        @php
+                                                        $total_price = 0 ;
+                                                        //if user have only fashion related products in cart , then we will show total price of only fashion
+                                                        if ($fashion_total_price>0 && $second_total_price == 0) {
+                                                            $total_price = $fashion_total_price;
+                                                        }
+                                                        //if user have both fashion and other category products
+                                                        if ($fashion_total_price > 0 && $second_total_price > 0 ) {
+                                                            $total_price = $fashion_total_price +  $second_total_price;
+                                                        }
+                                                        //if user has no fashion products in cart
+                                                        if ($second_total_price > 0 && $fashion_total_price == 0) {
+                                                           $total_price = $second_total_price;
+                                                        }
+
+                                                    @endphp
+                                                        <div class="table-responsive">
+                                                            <table class="table mb-0">
+                                                                <tbody>
                                                                     <tr>
-                                                                        <td>
-                                                                            {{-- <div class="control-group">
-                                                                                <input type="radio" name="" id="">
-                                                                               <label for="" class="control-label">{{ $delivery_address['name']}}</label>
-
-                                                                            </div> --}}
-                                                                            <div class="form-check form-check-inline">
-                                                                                <input class="form-check-input" type="radio"
-                                                                                    name="delivery_address" id="delivery_address{{ $delivery_address['id'] }}" value="{{ $delivery_address['id'] }}">
-                                                                                <label class="form-check-label px-2"
-                                                                                    for="delivery_address">
-
-                                                                                        Name : {{ $delivery_address['name']}} <br>
-                                                                                        Address :{{ $delivery_address['address']}} <br>
-                                                                                        City : {{ $delivery_address['city']}} ,
-                                                                                        State : {{ $delivery_address['state']}} ,
-                                                                                        Country :{{ $delivery_address['country']}} ,
-                                                                                        Pincode:{{ $delivery_address['pincode']}} <br>
-                                                                                        Mobile : {{ $delivery_address['mobile']}} <br>
-
-
-
-                                                                                </label>
-
-                                                                            </div>
-                                                                        </td>
-                                                                        <td><a href=""><button class="btn btn-info">Edit</button></a>
-                                                                        <a href=""><button class="btn btn-danger">Delete</button></td></a>
+                                                                        <td>Total :</td>
+                                                                        <td>Rs. {{  $total_price }}</td>
                                                                     </tr>
-                                                                    @endforeach
+                                                                    <tr>
+                                                                        <td>Discount : </td>
+                                                                        <td>- Rs. 0 </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Shipping Charge :</td>
+                                                                        <td> Rs. 0 </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Estimated Tax : </td>
+                                                                        <td> Rs . 0</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Grand Total :</th>
+                                                                        <th>Rs. {{  $total_price }}</th>
+                                                                        {{-- session to store send the  grand total value to proceed to shiiping btn --}}
+                                                                        @php
+                                                                            Session::put('grand_total' , $total_price);
+                                                                        @endphp
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <!-- end table-responsive -->
+                                                    </div>
+                                                </div>
+                                                <!-- end card -->
+                                            </div>
 
-                                                                </table>
+
+                                            <h5 class="mt-4 mb-3 font-size-15">Delivery Address</h5>
+                                            <div class="table-responsive border">
+                                                <table class="table align-middle mb-0">
+                                                    <tbody>
+
+                                                    @foreach ($delivery_addresses as $delivery_address)
+                                                    <tr>
+                                                        <td>
+                                                            {{-- <div class="control-group">
+                                                                <input type="radio" name="" id="">
+                                                                <label for="" class="control-label">{{ $delivery_address['name']}}</label>
+
+                                                            </div> --}}
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="delivery_address" id="delivery_address{{ $delivery_address['id'] }}" value="{{ $delivery_address['id'] }}">
+                                                                <label class="form-check-label px-2"
+                                                                    for="delivery_address">
+
+                                                                        Name : {{ $delivery_address['name']}} <br>
+                                                                        Address :{{ $delivery_address['address']}} <br>
+                                                                        City : {{ $delivery_address['city']}} ,
+                                                                        State : {{ $delivery_address['state']}} ,
+                                                                        Country :{{ $delivery_address['country']}} ,
+                                                                        Pincode:{{ $delivery_address['pincode']}} <br>
+                                                                        Mobile : {{ $delivery_address['mobile']}} <br>
+                                                                </label>
                                                             </div>
-                                                           <a href="{{ route('checkout') }}"><button class="btn btn-primary mt-3">Add Address</button></a>
+                                                        </td>
+                                                        <td><a href="{{ url('edit-delivery-address/'.$delivery_address['id']) }}"><button class="btn btn-info">Edit</button></a>
+                                                        <a class="delete_delivery_address" href="{{ url('delete-delivery-address/'.$delivery_address['id']) }}"><button class="btn btn-danger">Delete</button></td></a>
+                                                    </tr>
+                                                    </tbody>
+                                                    @endforeach
+                                                </table>
+                                            </div>
+                                            <a href="{{ url('checkout') }}"><button class="btn btn-primary mt-3">Add Address</button></a>
+
                                         </div>
                                     </div>
                                 </div>
@@ -618,11 +470,18 @@ use App\Models\Product;
                                 </div> <!-- end col -->
                                 <div class="col-sm-6">
                                     <div class="text-end">
-                                        <a href="ecommerce-checkout.html" class="btn btn-success">
-                                            <i class="mdi mdi-truck-fast me-1"></i> Proceed to Shipping </a>
+                                        <button type="submit" name="proceed_to_shopping"
+                                        value="proceed_to_shopping" class="btn btn-primary">
+                                        proceed_to_shopping</button>
+                                    {{-- <button type="submit" name="proceed_to_shopping" value="proceed_to_shopping" class="btn btn-success"> <i class="mdi mdi-truck-fast me-1"></i>Proceed to Shipping</button> --}}
                                     </div>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
+
+                        </form>
+                        {{-- closing chekout form --}}
+
+
                         </div>
                     </div>
                 </div>

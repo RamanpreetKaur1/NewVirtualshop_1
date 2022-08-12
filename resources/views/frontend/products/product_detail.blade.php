@@ -56,6 +56,7 @@
 													<form action="{{ url('add-to-cart') }}" method="POST" class="form-horizontal"> @csrf
 														<input type="hidden" name="product_id" value="{{ $productDetails['id'] }}">
 														<div class="text-center">
+
 															<button type="submit" class="btn btn-primary waves-effect waves-light mt-2 me-1"> <i class="bx bx-cart me-2"></i> Add to cart </button>
 															<button type="button" class="btn btn-success waves-effect  mt-2 waves-light"> <i class="bx bx-shopping-bag me-2"></i>Buy now </button>
 															<div class="row mt-2 mb-3">
@@ -103,6 +104,15 @@
 													<select name="size" id="getPrice" class="form-select" product-id={{ $productDetails['id'] }}>
 														<option value="">Select Size </option> @foreach ($productDetails['attributes'] as $attribute)
 														<option value="{{ $attribute['size'] }}">{{ $attribute['size'] }}</option> @endforeach </select>
+                                                        @if ($errors->has('size'))
+                                                        <span
+                                                            class="text-danger">*{{ $errors->first('size') }}</span>
+                                                    @endif
+                                                        {{-- @if (isset('size') !== '')
+                                                            @php
+                                                                echo "size  selected"; die;
+                                                            @endphp
+                                                        @endif --}}
 												</form>
 												<br>
 												<br> @else @if ($getDiscountedPrice > 0)

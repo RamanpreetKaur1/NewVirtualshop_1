@@ -28,42 +28,8 @@ class SellersDetailsController extends Controller
     public function sellerRegistration(Request $request)
     {
         if ($request->isMethod('post')) {
-
-
-        // if(isset($_POST['plan_a']))
-        //     {
-        //        $plan_id = Plan::insertGetID([
-        //         'plan_name' => "Plan_a",
-        //         'plan_value' => "50",
-        //         'plan_limit' => "4",
-        //         'plan_status' => "1",
-        //        ]);
-        //     }
-        //     else if(isset($_POST['plan_b']))
-        //     {
-        //         $plan_id = Plan::insertGetID([
-        //             'plan_name' => "Plan_b",
-        //             'plan_value' => "60",
-        //             'plan_limit' => "8",
-        //             'plan_status' => "1",
-        //            ]);
-        //     }
-        //    else if(isset($_POST['plan_c'])){
-        //     $plan_id = Plan::insertGetID([
-        //         'plan_name' => "Plan_c",
-        //         'plan_value' => "100",
-        //         'plan_limit' => "12",
-        //         'plan_status' => "1",
-        //        ]);
-        //     }
-
-
-
         $data = $request->all();
         //echo "<pre>" ; print_r($data) ; die;
-
-
-
         $request->validate([
             'seller_name' => 'required',
                 'seller_email' => 'required',

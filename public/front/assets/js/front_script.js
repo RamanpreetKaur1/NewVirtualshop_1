@@ -249,4 +249,14 @@ $(document).ready(function () {
             }
         });
     }
+
+    //Delete cart items
+    $(document).on('click', '.delete_delivery_address', function () {
+        var result = confirm("Are you sure you want to delete this address ? ");
+
+        if (!result) {
+            return false;
+        }
+
+    });
 });
